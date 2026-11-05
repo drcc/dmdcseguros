@@ -16,8 +16,11 @@ function enviarPedido(form, payload) {
     return;
   }
 
-  if (!form.checkValidity()) {
-    form.reportValidity();
+  var primeiroErro = validarFormulario(form);
+  if (primeiroErro) {
+    showStatus('error', 'Há campos por preencher ou com erros — veja as indicações a vermelho.');
+    primeiroErro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    primeiroErro.focus({ preventScroll: true });
     return;
   }
 
@@ -54,6 +57,7 @@ function enviarPedido(form, payload) {
     .then(function (data) {
       if (data && data.result === 'success') {
         form.reset();
+        limparErros(form);
         if (anexoInput) definirAnexos(anexoInput, []);
         mostrarModalSucesso(payload.nome);
       } else {
@@ -80,6 +84,91 @@ function enviarPedido(form, payload) {
     statusBox.textContent = '';
   }
 }
+
+// Erros de validação por baixo de cada campo (a bolha do browser só mostrava o primeiro, e na língua do browser).
+var contadorErros = 0;
+
+function mensagemErro(el) {
+  var v = el.validity;
+  if (v.valueMissing) {
+    if (el.type === 'checkbox') return 'Tem de aceitar para enviar o pedido.';
+    if (el.type === 'radio' || el.tagName === 'SELECT') return 'Escolha uma opção.';
+    return 'Campo obrigatório.';
+  }
+  if (v.customError) return el.validationMessage;
+  if (v.badInput) return el.type === 'date' ? 'Indique uma data válida.' : 'Valor inválido.';
+  if (v.typeMismatch && el.type === 'email') return 'Indique um e-mail válido (ex: nome@exemplo.pt).';
+  if (v.patternMismatch) return el.title || 'Formato inválido.';
+  if (v.rangeUnderflow) return el.type === 'date' ? 'Escolha uma data a partir de ' + dataPT(el.min) + '.' : 'O valor mínimo é ' + el.min + '.';
+  if (v.rangeOverflow) return el.type === 'date' ? 'Escolha uma data até ' + dataPT(el.max) + '.' : 'O valor máximo é ' + el.max + '.';
+  return 'Valor inválido.';
+}
+
+function dataPT(iso) {
+  var p = String(iso).split('-');
+  return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0] : iso;
+}
+
+function marcarErro(el, mensagem) {
+  var bloco = el.closest('.choice-group') || el.closest('.form-group');
+  if (!bloco) return;  // ex: botão de envio
+  var erro = bloco.querySelector(':scope > .campo-erro');
+  var grupo = el.type === 'radio' && el.form ? el.form.querySelectorAll('input[name="' + el.name + '"]') : [el];
+
+  if (!mensagem) {
+    if (erro) erro.remove();
+    bloco.classList.remove('tem-erro');
+    Array.prototype.forEach.call(grupo, function (x) { x.removeAttribute('aria-invalid'); x.removeAttribute('aria-describedby'); });
+    return;
+  }
+  if (!erro) {
+    erro = document.createElement('p');
+    erro.className = 'campo-erro';
+    erro.id = 'campo-erro-' + (++contadorErros);
+    bloco.appendChild(erro);
+  }
+  erro.textContent = mensagem;
+  bloco.classList.add('tem-erro');
+  Array.prototype.forEach.call(grupo, function (x) { x.setAttribute('aria-invalid', 'true'); x.setAttribute('aria-describedby', erro.id); });
+}
+
+// Marca todos os campos inválidos e devolve o primeiro (ou null se o formulário estiver válido).
+function validarFormulario(form) {
+  form.classList.add('foi-validado');
+  var primeiro = null;
+  Array.prototype.forEach.call(form.elements, function (el) {
+    if (!el.willValidate) return;
+    var valido = el.checkValidity();
+    marcarErro(el, valido ? '' : mensagemErro(el));
+    if (!valido && !primeiro) primeiro = el;
+  });
+  return primeiro;
+}
+
+function limparErros(form) {
+  form.classList.remove('foi-validado');
+  Array.prototype.forEach.call(form.querySelectorAll('.campo-erro'), function (e) { e.remove(); });
+  Array.prototype.forEach.call(form.querySelectorAll('.tem-erro'), function (b) { b.classList.remove('tem-erro'); });
+  Array.prototype.forEach.call(form.querySelectorAll('[aria-invalid]'), function (x) {
+    x.removeAttribute('aria-invalid');
+    x.removeAttribute('aria-describedby');
+  });
+}
+
+// Depois da primeira tentativa de envio, os erros atualizam-se à medida que a pessoa corrige os campos.
+['input', 'change'].forEach(function (tipoEvento) {
+  document.addEventListener(tipoEvento, function (event) {
+    var el = event.target;
+    var form = el.form;
+    if (!form || !form.classList.contains('foi-validado') || !el.willValidate) return;
+    marcarErro(el, el.checkValidity() ? '' : mensagemErro(el));
+    var status = form.querySelector('.form-status.error');
+    if (status && !form.querySelector('.tem-erro')) {
+      status.className = 'form-status';
+      status.textContent = '';
+    }
+  });
+});
 
 // Modal de confirmação depois de um pedido enviado com sucesso (criado uma vez e reutilizado).
 function mostrarModalSucesso(nome) {

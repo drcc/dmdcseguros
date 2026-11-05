@@ -316,6 +316,16 @@ textarea { resize: vertical; min-height: 120px; }
   gap: 10px;
 }
 .checkbox-row input { width: auto; margin-top: 4px; }
+.checkbox-row { flex-wrap: wrap; }
+.checkbox-row label { flex: 1; }
+.checkbox-row .campo-erro { flex-basis: 100%; margin-top: 0; }
+
+/* Erros de validação por baixo de cada campo */
+.campo-erro { color: #b3261e; font-size: 0.82rem; font-weight: 500; margin: 6px 0 0; }
+.tem-erro input:not([type="checkbox"]):not([type="radio"]),
+.tem-erro select,
+.tem-erro textarea { border-color: #b3261e; }
+.tem-erro input:focus, .tem-erro select:focus, .tem-erro textarea:focus { box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.15); }
 .checkbox-row label { font-weight: 400; font-size: 0.85rem; color: var(--color-text-muted); }
 
 .form-status {

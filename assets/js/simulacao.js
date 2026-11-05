@@ -7,7 +7,7 @@ var TIPOS = {
     anexoDica: 'Ex: DUA, carta de condução, apólice atual.',
     infoDica: 'Neste campo poderá informar qual a seguradora atual, valor pago na última anuidade, ou outras informações que considere pertinente.',
     campos: [
-      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, minHoje: true },
+      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, aPartirDeAmanha: true },
       { name: 'veiculo', label: 'Tipo de veículo', type: 'radio', required: true, options: ['Automóvel', 'Moto'], full: true },
       { name: 'marca_modelo', label: 'Marca e modelo', required: true, placeholder: 'Ex: Renault Clio 1.5 dCi' },
       { name: 'matricula', label: 'Matrícula', required: true, placeholder: 'Ex: AA-00-AA' },
@@ -24,7 +24,7 @@ var TIPOS = {
     anexoDica: 'Ex: apólice atual, caderneta predial.',
     infoDica: 'Indique que tipo de coberturas deseja ou outras informações que considere relevante.',
     campos: [
-      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, minHoje: true },
+      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, aPartirDeAmanha: true },
       { name: 'objeto', label: 'O que pretende segurar', type: 'radio', required: true, full: true,
         options: ['Edifício e recheio', 'Apenas edifício', 'Apenas recheio'] },
       { name: 'tipo_imovel', label: 'Tipo de imóvel', type: 'select', required: true, options: ['Apartamento', 'Moradia', 'Outro'] },
@@ -43,7 +43,7 @@ var TIPOS = {
     anexoDica: 'Ex: apólice atual.',
     infoDica: 'Pode descrever qual o tipo de coberturas que procura, bem como atuais apólices que possua.',
     campos: [
-      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, minHoje: true },
+      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, aPartirDeAmanha: true },
       { name: 'pessoas', label: 'Número de pessoas a segurar', type: 'number', required: true, min: 1 },
       { name: 'idades', label: 'Idade das pessoas', required: true, placeholder: 'Ex: 42, 40, 12' },
       { name: 'plano', label: 'Plano pretendido', type: 'select', required: true,
@@ -89,7 +89,7 @@ var TIPOS = {
     anexoDica: 'Ex: apólice atual.',
     infoDica: 'Pode descrever que tipo de coberturas pretende, se já tem alguma apólice ativa.',
     campos: [
-      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, minHoje: true },
+      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, aPartirDeAmanha: true },
       { name: 'quem', label: 'Quem pretende segurar?', type: 'radio', required: true, full: true,
         options: ['Eu', 'Casal', 'Família', 'Outros'] },
       { name: 'nascimento', label: 'Data de nascimento', type: 'date', required: true },
@@ -106,7 +106,7 @@ var TIPOS = {
     anexoDica: 'Ex: apólice atual, exigência contratual.',
     infoDica: 'Informações adicionais',
     campos: [
-      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, minHoje: true },
+      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, aPartirDeAmanha: true },
       { name: 'tipo_rc', label: 'Tipo de responsabilidade civil', type: 'select', required: true,
         options: ['Familiar / vida privada', 'Profissional', 'Animais de companhia', 'Atividade desportiva', 'Eventos', 'Outra', 'Preciso de aconselhamento'] },
       { name: 'capital', label: 'Capital pretendido (€)', type: 'number', min: 0, placeholder: 'Se souber' },
@@ -119,7 +119,7 @@ var TIPOS = {
     anexoDica: 'Ex: apólice atual, boletim de vacinas.',
     infoDica: 'Descreva outras características do animal, tais como doenças, últimas cirurgias.',
     campos: [
-      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, minHoje: true },
+      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, aPartirDeAmanha: true },
       { name: 'tipo_animal', label: 'Tipo de animal', type: 'radio', required: true, full: true, options: ['Cão', 'Gato', 'Outro'] },
       { name: 'morada_animal', label: 'Morada do animal', required: true, full: true },
       { name: 'nome_animal', label: 'Nome do animal', required: true },
@@ -138,7 +138,7 @@ var TIPOS = {
     titulo: 'Seguro de Vida',
     anexoDica: 'Ex: apólice atual, última simulação.',
     campos: [
-      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, minHoje: true },
+      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, aPartirDeAmanha: true },
       { name: 'pessoas', label: 'Pessoas a segurar', type: 'radio', required: true, full: true, options: ['Uma pessoa', 'Duas pessoas'] },
       { name: 'nascimento', label: 'Data de nascimento', type: 'date', required: true },
       { name: 'nascimento_2', label: 'Data de nascimento da segunda pessoa segura', type: 'date', required: true,
@@ -153,7 +153,7 @@ var TIPOS = {
     titulo: 'Poupança / PPR',
     anexoDica: 'Ex: extrato de PPR atual.',
     campos: [
-      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, minHoje: true },
+      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, aPartirDeAmanha: true },
       { name: 'nascimento', label: 'Data de nascimento', type: 'date', required: true },
       { name: 'objetivo', label: 'Objetivo', type: 'select', required: true,
         options: ['Complemento de reforma (PPR)', 'Poupança a médio/longo prazo', 'Educação dos filhos'] },
@@ -167,7 +167,7 @@ var TIPOS = {
     titulo: 'Seguro de Vida Crédito Habitação',
     anexoDica: 'Ex: FINE / simulação do banco, condições do banco, apólice atual.',
     campos: [
-      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, minHoje: true },
+      { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, aPartirDeAmanha: true },
       { name: 'titulares', label: 'Número de titulares', type: 'select', required: true, options: ['1', '2'] },
       { name: 'nascimento', label: 'Data de nascimento do 1.º titular', type: 'date', required: true },
       { name: 'nascimento_2', label: 'Data de nascimento do 2.º titular', type: 'date', required: true,
@@ -352,7 +352,7 @@ function campoHtml(c, prefixo) {
     controlo = '<textarea id="' + id + '" name="' + c.name + '" rows="3"' + placeholder + req + '></textarea>';
   } else {
     var tipo = c.type || 'text';
-    var minimo = c.minHoje ? hojeISO() : c.min;  // datas futuras: não aceita dias passados
+    var minimo = c.aPartirDeAmanha ? amanhaISO() : c.min;  // data de início: só a partir de amanhã
     var limites = (minimo !== undefined ? ' min="' + minimo + '"' : '') + (c.max !== undefined ? ' max="' + c.max + '"' : '') +
       (c.step ? ' step="' + c.step + '"' : '') +
       (c.pattern ? ' pattern="' + c.pattern + '"' : '') + (c.maxlength ? ' maxlength="' + c.maxlength + '"' : '') +
@@ -384,8 +384,9 @@ function nifValido(nif) {
   return controlo === Number(nif[8]);
 }
 
-// Data de hoje no formato AAAA-MM-DD (hora local), para o atributo min dos campos de data.
-function hojeISO() {
+// Data de amanhã no formato AAAA-MM-DD (hora local), para o atributo min dos campos de data.
+function amanhaISO() {
   var d = new Date();
+  d.setDate(d.getDate() + 1);
   return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 }
