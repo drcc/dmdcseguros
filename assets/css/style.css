@@ -328,6 +328,55 @@ textarea { resize: vertical; min-height: 120px; }
 .form-status.success { display: block; background: #e5f7ee; color: #1e7a4d; }
 .form-status.error { display: block; background: #fdecec; color: #b3261e; }
 
+/* Formulário a enviar: campos esbatidos e indicador a rodar no botão */
+form.is-loading input,
+form.is-loading select,
+form.is-loading textarea,
+form.is-loading label { opacity: 0.55; }
+form.is-loading button[type="submit"] { cursor: progress; opacity: 0.9; }
+form.is-loading button[type="submit"]::before {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 10px;
+  vertical-align: -2px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: rodar 0.8s linear infinite;
+}
+@keyframes rodar { to { transform: rotate(360deg); } }
+
+/* Modal de pedido enviado */
+.modal {
+  width: min(420px, calc(100% - 32px));
+  padding: 32px 28px 28px;
+  border: none;
+  border-radius: 14px;
+  box-shadow: var(--shadow-md);
+  text-align: center;
+  color: var(--color-text);
+}
+.modal::backdrop { background: rgba(1, 44, 66, 0.55); }
+.modal h2 { font-size: 1.3rem; margin: 0 0 10px; }
+.modal-texto { color: var(--color-text-muted); margin: 0 0 24px; }
+.modal-icone {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: #e5f7ee;
+  color: #1e7a4d;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 56px;
+}
+.modal .btn { min-width: 140px; }
+@media (prefers-reduced-motion: reduce) {
+  form.is-loading button[type="submit"]::before { animation-duration: 2.4s; }
+}
+
 .info-card { background: var(--color-bg-alt); border-radius: var(--radius); padding: 32px; }
 .info-card ul { list-style: none; padding: 0; margin: 0; }
 .info-card li { margin-bottom: 14px; font-size: 0.95rem; }

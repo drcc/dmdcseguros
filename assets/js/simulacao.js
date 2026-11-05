@@ -169,7 +169,9 @@ var TIPOS = {
     campos: [
       { name: 'data_inicio', label: 'Data de início do seguro', type: 'date', required: true, minHoje: true },
       { name: 'titulares', label: 'Número de titulares', type: 'select', required: true, options: ['1', '2'] },
-      { name: 'nascimentos', label: 'Data(s) de nascimento dos titulares', required: true, placeholder: 'Ex: 12/03/1985 e 04/07/1987' },
+      { name: 'nascimento', label: 'Data de nascimento do 1.º titular', type: 'date', required: true },
+      { name: 'nascimento_2', label: 'Data de nascimento do 2.º titular', type: 'date', required: true,
+        mostrarSe: { campo: 'titulares', valor: '2' } },
       { name: 'capital_divida', label: 'Capital em dívida (€)', type: 'number', required: true, min: 0 },
       { name: 'prazo', label: 'Prazo restante (anos)', type: 'number', min: 1, max: 50 },
       { name: 'banco', label: 'Banco', placeholder: 'Ex: CGD, Millennium, Santander' },

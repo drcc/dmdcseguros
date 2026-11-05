@@ -30,8 +30,11 @@ function enviarPedido(form, payload) {
   }
 
   var labelOriginal = submitBtn.textContent;
-  submitBtn.disabled = true;
   submitBtn.textContent = 'A enviar...';
+  // Formulário em "loading": campos bloqueados até a resposta chegar.
+  form.classList.add('is-loading');
+  form.setAttribute('aria-busy', 'true');
+  form.inert = true;
   hideStatus();
 
   Promise.all(anexos.map(readFileAsBase64))
@@ -52,7 +55,7 @@ function enviarPedido(form, payload) {
       if (data && data.result === 'success') {
         form.reset();
         if (anexoInput) definirAnexos(anexoInput, []);
-        showStatus('success', 'Pedido enviado com sucesso. Entrarei em contacto brevemente.');
+        mostrarModalSucesso(payload.nome);
       } else {
         showStatus('error', 'Não foi possível enviar o pedido. Tente novamente ou contacte-nos por telefone.');
       }
@@ -61,7 +64,9 @@ function enviarPedido(form, payload) {
       showStatus('error', 'Não foi possível enviar o pedido. Verifique a ligação à internet e tente novamente.');
     })
     .finally(function () {
-      submitBtn.disabled = false;
+      form.inert = false;
+      form.removeAttribute('aria-busy');
+      form.classList.remove('is-loading');
       submitBtn.textContent = labelOriginal;
     });
 
@@ -73,6 +78,37 @@ function enviarPedido(form, payload) {
   function hideStatus() {
     statusBox.className = 'form-status';
     statusBox.textContent = '';
+  }
+}
+
+// Modal de confirmação depois de um pedido enviado com sucesso (criado uma vez e reutilizado).
+function mostrarModalSucesso(nome) {
+  var modal = document.getElementById('modal-sucesso');
+  if (!modal) {
+    modal = document.createElement('dialog');
+    modal.id = 'modal-sucesso';
+    modal.className = 'modal';
+    modal.setAttribute('aria-labelledby', 'modal-sucesso-titulo');
+    modal.innerHTML =
+      '<div class="modal-icone" aria-hidden="true">✓</div>' +
+      '<h2 id="modal-sucesso-titulo">Pedido enviado com sucesso</h2>' +
+      '<p class="modal-texto"></p>' +
+      '<button type="button" class="btn btn-primary">Fechar</button>';
+    modal.querySelector('button').addEventListener('click', function () { modal.close(); });
+    // Clicar fora da caixa (no fundo escurecido) também fecha.
+    modal.addEventListener('click', function (event) { if (event.target === modal) modal.close(); });
+    document.body.appendChild(modal);
+  }
+
+  var primeiroNome = String(nome || '').trim().split(/\s+/)[0];
+  modal.querySelector('.modal-texto').textContent =
+    'Obrigado' + (primeiroNome ? ', ' + primeiroNome : '') +
+    '! Recebemos o seu pedido e entraremos em contacto brevemente por e\u2011mail.';
+
+  if (typeof modal.showModal === 'function') {
+    modal.showModal();
+  } else {
+    alert('Pedido enviado com sucesso. Entraremos em contacto brevemente por e-mail.');
   }
 }
 
