@@ -63,8 +63,6 @@ p { margin: 0 0 1em; color: var(--color-text-muted); }
 .section-header { max-width: 640px; margin-bottom: 40px; }
 .section-header p { margin-bottom: 0; }
 .section-header p + p { margin-top: 8px; }
-.section-header .section-destaque { margin-top: 14px; color: var(--color-primary); font-size: 1.05rem; }
-.section-destaque strong { color: var(--color-accent-dark); font-weight: 700; }
 #ramos { scroll-margin-top: 80px; }
 
 /* Como funciona: 1 → 2 → 3 */
@@ -75,7 +73,8 @@ p { margin: 0 0 1em; color: var(--color-text-muted); }
   flex-wrap: wrap;
   gap: 8px 22px;
   padding: 0;
-  margin: 18px 0 0;
+  margin: -12px 0 32px;
+  justify-content: center;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--color-text);
@@ -261,7 +260,10 @@ p { margin: 0 0 1em; color: var(--color-text-muted); }
 /* Cada seguro leva diretamente ao seu formulário de simulação */
 .branch-links a { color: var(--color-white); font-weight: 600; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.45); text-underline-offset: 3px; }
 .branch-links a:hover { color: var(--color-white); text-decoration-color: var(--color-white); }
-.branch-card a.btn { margin-top: 8px; }
+.branch-card { display: flex; flex-direction: column; }
+/* Botões centrados e alinhados no fundo dos dois cartões */
+.branch-card a.btn { margin-top: auto; align-self: center; }
+.branch-card .branch-links { margin-bottom: 24px; }
 
 /* Sub-secções (ramos) */
 .subsection {
