@@ -62,6 +62,37 @@ p { margin: 0 0 1em; color: var(--color-text-muted); }
 .section-alt { background: var(--color-bg-alt); }
 .section-header { max-width: 640px; margin-bottom: 40px; }
 .section-header p { margin-bottom: 0; }
+.section-header p + p { margin-top: 8px; }
+.section-header .section-destaque { margin-top: 14px; color: var(--color-primary); font-size: 1.05rem; }
+.section-destaque strong { color: var(--color-accent-dark); font-weight: 700; }
+#ramos { scroll-margin-top: 80px; }
+
+/* Como funciona: 1 → 2 → 3 */
+.passos {
+  list-style: none;
+  counter-reset: passo;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  padding: 0;
+  margin: 18px 0 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.passos li { counter-increment: passo; display: flex; align-items: center; gap: 8px; }
+.passos li::before {
+  content: counter(passo);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-size: 0.78rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 
 /* Header / Nav */
 .site-header {
@@ -227,6 +258,9 @@ p { margin: 0 0 1em; color: var(--color-text-muted); }
 .branch-card.nao-vida { background: var(--color-primary); }
 .branch-card.vida { background: var(--color-accent-dark); }
 .branch-card h3, .branch-card p { color: var(--color-white); }
+/* Cada seguro leva diretamente ao seu formulário de simulação */
+.branch-links a { color: var(--color-white); font-weight: 600; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.45); text-underline-offset: 3px; }
+.branch-links a:hover { color: var(--color-white); text-decoration-color: var(--color-white); }
 .branch-card a.btn { margin-top: 8px; }
 
 /* Sub-secções (ramos) */
@@ -409,6 +443,8 @@ form.is-loading button[type="submit"]::before {
   padding: 56px 0 0;
   margin-top: 80px;
 }
+/* Sem faixa branca quando a página acaba numa secção com fundo bege */
+main:has(> .section-alt:last-child) + .site-footer { margin-top: 0; }
 .footer-inner {
   display: grid;
   grid-template-columns: 1.4fr 1fr 1fr 1fr;

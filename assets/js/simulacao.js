@@ -196,7 +196,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Permite ligar diretamente a um formulário aberto, ex: seguros-nao-vida.html#simular-automovel
   if (location.hash.indexOf('#simular-') === 0) {
-    alternar(location.hash.replace('#simular-', ''), true);
+    var chaveInicial = location.hash.replace('#simular-', '');
+    alternar(chaveInicial, true);
+    // Ao chegar de outra página, o scroll suave é interrompido pelo carregamento: desce até à secção
+    // do seguro (título + formulário aberto) só quando a página acabar de carregar.
+    window.addEventListener('load', function () {
+      var painel = document.getElementById('simular-' + chaveInicial);
+      var seccao = painel && (painel.closest('.subsection') || painel);
+      if (seccao) seccao.scrollIntoView({ behavior: 'instant', block: 'start' });
+    });
   }
 
   function alternar(chave, forcarAbrir) {
